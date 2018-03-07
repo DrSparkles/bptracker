@@ -2,28 +2,33 @@ import axios from 'axios';
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
 import commonStore from './stores/commonStore';
+import authStore from './stores/authStore';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 const API_ROOT = '/api';
 
 const handleErrors = err => {
+  console.log("AGENT handleErrors err", err);
   if (err && err.response && err.response.status === 401) {
-    //authStore.logout();
+    authStore.logout();
   }
   return err;
 };
 
 //const responseBody = res => res.body;
-const responseBody = res => JSON.parse(res.text);
+const responseBody = res => {
+  console.log(res);
+  return JSON.parse(res.text);
+}
 const responseBodyTesting = res => {
   console.log("DBAGENT TESTING res.text", JSON.parse(res.text));
-  console.log(res);
-
+  console.log("RES", res);
+  return JSON.parse(res.text);
 };
 
 const tokenPlugin = req => {
   if (commonStore.token) {
-    req.set('authorization', `Token ${commonStore.token}`);
+    req.set('x-access-token', commonStore.token);
   }
 };
 
@@ -51,7 +56,6 @@ const requests = {
       .then(responseBody);
   },
   post: (url, body) => {
-    console.log("DBAgent body", body);
     return superagent
       .post(`${API_ROOT}${url}`, body)
       .use(tokenPlugin)
@@ -61,14 +65,20 @@ const requests = {
 };
 
 const Auth = {
-  current: () =>
-    requests.get('/user'),
-  login: (email, password) =>
-    requests.post('/users/login', { user: { email, password } }),
-  register: (username, email, password) =>
-    requests.post('/users', { user: { username, email, password } }),
-  save: user =>
-    requests.put('/user', { user })
+  current: () => {
+    return requests.get('/users/user')
+  },
+  login: (username, password) => {
+    console.log("AGENT login username", username);
+    console.log("AGENT login password", password);
+    return requests.post('/users/authenticate', { username, password })
+  },
+  register: (username, password) => {
+    return requests.post('/users', { user: { username, password } })
+  },
+  save: user => {
+    return requests.put('/user', { user })
+  }
 };
 
 const BP = {

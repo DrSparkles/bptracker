@@ -51,8 +51,11 @@ class User {
   }
 
   authenticate(userValues, cb) {
-    const { username, password } = userValues;
 
+    const { username, password } = userValues;
+    console.log("TRYING TO AUTHENTICATE");
+    console.log("auth username", username);
+    console.log("auth password", password);
     // make sure our values are set
     if (username == undefined || username == "" || password == undefined || password == "") {
       return (0, _db.returnSimpleResult)("Username and password must not be blank.", {}, cb);
@@ -70,9 +73,9 @@ class User {
         const payload = {
           username
         };
-        console.log("AUTH SECRET", _auth2.default.secret);
-        const token = _jsonwebtoken2.default.sign(payload, _auth2.default.secret);
 
+        const token = _jsonwebtoken2.default.sign(payload, _auth2.default.secret);
+        console.log("SERVER USERS: LOGGED IN, PASSING BACK TOKEN");
         return (0, _db.returnSimpleResult)(err, { token }, cb);
       } else {
         return (0, _db.returnSimpleResult)("Password does not match our records.", {}, cb);
@@ -80,7 +83,19 @@ class User {
     });
   }
 
+  getUserByToken(userToken, cb) {
+    const payload = _jsonwebtoken2.default.decode(userToken);
+    return this.getUserByUsername(payload, cb);
+  }
+
+  getUserByUsername(username, cb) {
+    this.user_collection.findOne({ username: username.username }, ['_id', 'username'], (err, user) => {
+      return (0, _db.returnSimpleResult)(err, { user }, cb);
+    });
+  }
+
   getAll(cb) {
+
     this.user_collection.find({}, ["_id", "username"], (err, docs) => {
       return (0, _db.returnSimpleResult)(err, docs, cb);
     });

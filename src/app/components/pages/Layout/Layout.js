@@ -5,26 +5,53 @@ import { inject, observer } from 'mobx-react';
 // import mainStyles from '../../../public/styles/styles.css';
 import layoutStyles from './styles.css';
 
+import Header from '../../Header';
 import Home from '../Home';
+import Login from '../Login';
+import Register from '../Register';
 
 // import Nav from '../../Nav/Nav';<Nav />
 // import Footer from '../../Footer/Footer';<Footer />
 
-
-//@inject('commonStore', 'bpStore')
+@inject('commonStore', 'userStore')
 @withRouter
 @observer
 export default class Layout extends React.Component {
+
+  componentWillMount() {
+    if (!this.props.commonStore.token) {
+      this.props.commonStore.setAppLoaded();
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.commonStore.token) {
+      this.props.userStore.pullUser()
+        .finally(() => this.props.commonStore.setAppLoaded());
+    }
+  }
+
   render(){
-    return (
-      <div id='Layout' className={layoutStyles.pageContainer}>
+    if (this.props.commonStore.appLoaded) {
+      return (
 
-        <Switch>
-          <Route path="/bp/:_id" component={Home} />
-          <Route path="/" component={Home} />
-        </Switch>
+        <div id='Layout' className={layoutStyles.pageContainer}>
+          <Header />
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/" component={Home} />
+          </Switch>
 
-      </div>
-    );
+        </div>
+      );
+    }
+    else {
+      return (
+        <div id='Layout' className={layoutStyles.pageContainer}>
+          <Header />
+        </div>
+      );
+    }
   }
 }

@@ -7,10 +7,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Layout from "./components/pages/Layout/Layout";
 
 import commonStore from './stores/commonStore';
+import authStore from './stores/authStore';
+import userStore from './stores/userStore';
 // import bpStore from './stores/BPStore';
 
 const stores = {
   commonStore,
+  authStore,
+  userStore,
   // bpStore
 };
 

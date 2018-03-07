@@ -19,9 +19,12 @@ const express = require('express');
 const router = express.Router();
 
 
-// open routes
+/**
+ * OPEN ROUTES
+ */
 router.route('/authenticate').post((req, res) => {
   const { body } = req;
+  console.log("ROUTES USERS body", body);
   _users2.default.authenticate(body, (err, docs) => {
     return res.json(docs);
   });
@@ -34,13 +37,22 @@ router.route('/').post((req, res) => {
   });
 });
 
-// apply auth middleware
+/**
+ * APPLY AUTH MIDDLEWARE; ALL FOLLOWING ROUTES ARE PROTECTED
+ */
 router.use(_tokenAuth2.default);
 
 /**
- * Routes at /api/user
+ * Routes at /api/users
  */
-router.route('/').get((req, res) => {
+router.route('/user').get((req, res) => {
+  const userToken = req.get('x-access-token');
+  _users2.default.getUserByToken(userToken, (err, docs) => {
+    return res.json(docs);
+  });
+});
+
+router.route('/all').get((req, res) => {
   _users2.default.getAll((err, docs) => {
     return res.json(docs);
   });

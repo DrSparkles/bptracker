@@ -1,0 +1,11 @@
+.navLinks ul {
+    margin:0;
+    padding:0;
+}
+
+.navLinks li {
+    list-style:none;
+    display:inline;
+    padding:0 10px 0 10px;
+    margin:0;
+}

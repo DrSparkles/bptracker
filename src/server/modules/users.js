@@ -35,8 +35,11 @@ class User {
   }
 
   authenticate(userValues, cb){
-    const { username, password } = userValues;
 
+    const { username, password } = userValues;
+    console.log("TRYING TO AUTHENTICATE");
+    console.log("auth username", username);
+    console.log("auth password", password);
     // make sure our values are set
     if (username == undefined || username == "" || password == undefined || password == ""){
       return returnSimpleResult("Username and password must not be blank.", {}, cb);
@@ -54,9 +57,9 @@ class User {
         const payload = {
           username
         };
-        console.log("AUTH SECRET", authConfig.secret);
-        const token = jwt.sign(payload, authConfig.secret);
 
+        const token = jwt.sign(payload, authConfig.secret);
+        console.log("SERVER USERS: LOGGED IN, PASSING BACK TOKEN");
         return returnSimpleResult(err, {token}, cb);
       }
       else {
@@ -66,7 +69,19 @@ class User {
     });
   }
 
+  getUserByToken(userToken, cb){
+    const payload = jwt.decode(userToken);
+    return this.getUserByUsername(payload, cb);
+  }
+
+  getUserByUsername(username, cb){
+    this.user_collection.findOne({username: username.username}, ['_id', 'username'], (err, user) => {
+      return returnSimpleResult(err, {user}, cb)
+    });
+  }
+
   getAll(cb){
+
     this.user_collection.find({}, ["_id", "username"], (err, docs) => {
       return returnSimpleResult(err, docs, cb);
     });

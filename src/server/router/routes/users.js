@@ -8,10 +8,13 @@ const router = express.Router();
 import usersModule from '../../modules/users';
 import authMiddleware from '../../lib/tokenAuth.middleware';
 
-// open routes
+/**
+ * OPEN ROUTES
+ */
 router.route('/authenticate')
   .post((req, res) => {
     const { body } = req;
+    console.log("ROUTES USERS body", body);
     usersModule.authenticate(body, (err, docs) => {
       return res.json(docs);
     });
@@ -26,20 +29,28 @@ router.route('/')
   });
 
 
-// apply auth middleware
+/**
+ * APPLY AUTH MIDDLEWARE; ALL FOLLOWING ROUTES ARE PROTECTED
+ */
 router.use(authMiddleware);
 
 /**
- * Routes at /api/user
+ * Routes at /api/users
  */
-router.route('/')
+router.route('/user')
+  .get((req, res) => {
+    const userToken = req.get('x-access-token');
+    usersModule.getUserByToken(userToken, (err, docs) => {
+      return res.json(docs);
+    });
+  });
+
+router.route('/all')
   .get((req, res) => {
     usersModule.getAll((err, docs) => {
       return res.json(docs);
     });
   });
-
-
 
 
 /*

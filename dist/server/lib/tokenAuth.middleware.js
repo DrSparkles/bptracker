@@ -23,7 +23,7 @@ function authMiddleware(req, res, next) {
 
   // check header or url parameters or post parameters for token
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
+  console.log("TOKEN IN MIDDLEWARE", token);
   // decode token
   if (token) {
 
@@ -39,6 +39,6 @@ function authMiddleware(req, res, next) {
     });
   } else {
     // bounce if no token
-    return res.status(403).send((0, _response_object2.default)("No token provided.", true));
+    return res.status(401).send((0, _response_object2.default)("No token provided.", true));
   }
 }

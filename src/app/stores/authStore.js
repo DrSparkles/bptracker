@@ -28,9 +28,17 @@ class AuthStore {
   @action login() {
     this.inProgress = true;
     this.errors = undefined;
-    return agent.Auth.login(this.values.email, this.values.password)
-      .then(({ user }) => commonStore.setToken(user.token))
-      .then(() => userStore.pullUser())
+    console.log("AUTH STORE LOGIN username", this.values.username);
+    console.log("AUTH STORE LOGIN password", this.values.password);
+    return agent.Auth
+      .login(this.values.username, this.values.password)
+      .then ((userToken) => {
+        console.log("TOKEN", userToken);
+        commonStore.setToken(userToken.result.token);
+      })
+      .then(() => {
+        userStore.pullUser()
+      })
       .catch(action((err) => {
         this.errors = err.response && err.response.body && err.response.body.errors;
         throw err;
@@ -41,7 +49,7 @@ class AuthStore {
   @action register() {
     this.inProgress = true;
     this.errors = undefined;
-    return agent.Auth.register(this.values.username, this.values.email, this.values.password)
+    return agent.Auth.register(this.values.username, this.values.password)
       .then(({ user }) => commonStore.setToken(user.token))
       .then(() => userStore.pullUser())
       .catch(action((err) => {
