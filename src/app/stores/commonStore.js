@@ -16,11 +16,13 @@ class CommonStore {
       token => {
         if (token) {
           window.localStorage.setItem('jwt', token);
-        } else {
+        }
+        else {
           window.localStorage.removeItem('jwt');
         }
       }
     );
+    console.log("COMMON STORE token in constructor", this.token);
   }
 
   @action setToken(token) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 
 import Layout from "./components/pages/Layout/Layout";
@@ -27,9 +27,9 @@ const app = document.getElementById("app-container");
  */
 ReactDOM.render(
   <Provider {...stores}>
-    <Router>
+    <HashRouter>
       <Layout stores={stores} />
-    </Router>
+    </HashRouter>
   </Provider>,
   app
 );

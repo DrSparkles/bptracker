@@ -19,19 +19,23 @@ import Register from '../Register';
 export default class Layout extends React.Component {
 
   componentWillMount() {
+    console.log("LAYOUT token willMount", this.props.commonStore.token);
     if (!this.props.commonStore.token) {
       this.props.commonStore.setAppLoaded();
     }
   }
 
   componentDidMount() {
+    console.log("LAYOUT token didMount", this.props.commonStore.token);
     if (this.props.commonStore.token) {
-      this.props.userStore.pullUser()
+      this.props.userStore
+        .pullUser()
         .finally(() => this.props.commonStore.setAppLoaded());
     }
   }
 
   render(){
+    console.log("LAYOUT render appLoaded", this.props.commonStore.appLoaded);
     if (this.props.commonStore.appLoaded) {
       return (
 

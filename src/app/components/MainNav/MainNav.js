@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 
 import styles from './styles.css';
 
-@inject('userStore', 'commonStore')
+@inject('userStore', 'commonStore', 'authStore')
 @observer
 export default class MainNav extends React.Component {
 
@@ -13,10 +13,12 @@ export default class MainNav extends React.Component {
   }
 
   handleClickLogout = () =>
-    this.props.authStore.logout()
+    this.props.authStore
+      .logout()
       .then(() => this.props.history.replace('/'));
 
   render(){
+    console.log("this.props.userStore.currentUser", this.props.userStore.currentUser);
     return (
       <div className={styles.navLinks}>
         <LoggedOutView currentUser={this.props.userStore.currentUser} />
@@ -81,7 +83,7 @@ const LoggedInView = props => {
 
 
         <li>
-          <a onClick={props.onLogout}>Log Out</a>
+          <a href='#' onClick={props.onLogout}>Log Out</a>
         </li>
       </ul>
     );
