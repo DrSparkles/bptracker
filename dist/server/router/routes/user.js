@@ -1,16 +1,35 @@
-const express = require('express');
-const router = express.Router();
-import bpModule from '../../modules/bp';
-import authMiddleware from "../../lib/tokenAuth.middleware";
+'use strict';
+
+var _bp = require('../../modules/bp');
+
+var _bp2 = _interopRequireDefault(_bp);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Blood Pressure API routes
  * @type {*|exports|module.exports}
  */
 
-// apply auth middleware
-router.use(authMiddleware);
+var express = require('express');
+var router = express.Router();
 
+
+/**
+ * Routes at /api/user
+ */
+router.route('/').get((req, res) => {
+  _bp2.default.getAll((err, docs) => {
+    return res.json(docs);
+  });
+}).post((req, res) => {
+  const { body } = req;
+  _bp2.default.createNew(body, (err, docs) => {
+    return res.json(docs);
+  });
+});
+
+/*
 router.route('/')
   .get((req, res) => {
     bpModule.getAll((err, docs) => {
@@ -45,5 +64,5 @@ router.route('/:_id')
       return res.json(docs);
     });
   });
-
+*/
 module.exports = router;

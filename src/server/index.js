@@ -7,6 +7,9 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import { resolve } from 'path';
 import historyFallback from 'connect-history-api-fallback';
 import webpackConfig from '../../webpack.config';
+import morgan from 'morgan';
+
+import authConfig from './config/auth.config';
 
 const { NODE_ENV = 'development', PORT = 3000 } = process.env;
 
@@ -15,16 +18,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-/*
-var myLogger = function (req, res, next) {
-  console.log('REQ HOST', req.get('host'))
-  console.log('REQ ORIGNAL URL', req.originalUrl);
-  console.log('REQ URL', req.url);
-  next()
-};
+// set auth values
+app.set('authSecret', authConfig.secret);
+app.set('authExpireMinutes', authConfig.authExpireMinutes);
 
-app.use(myLogger);
-*/
+// use morgan to log requests to the console
+app.use(morgan('dev'));
 
 // set up routing
 var apiRouter = require('./router')(app);

@@ -9,16 +9,11 @@ class AuthStore {
 
   @observable values = {
     username: '',
-    email: '',
     password: '',
   };
 
   @action setUsername(username) {
     this.values.username = username;
-  }
-
-  @action setEmail(email) {
-    this.values.email = email;
   }
 
   @action setPassword(password) {
@@ -27,7 +22,6 @@ class AuthStore {
 
   @action reset() {
     this.values.username = '';
-    this.values.email = '';
     this.values.password = '';
   }
 
