@@ -9,7 +9,6 @@ import historyFallback from 'connect-history-api-fallback';
 import webpackConfig from '../../webpack.config';
 import morgan from 'morgan';
 
-import jwt from 'jsonwebtoken';
 import authConfig from './config/auth.config';
 
 const { NODE_ENV = 'development', PORT = 3000 } = process.env;
