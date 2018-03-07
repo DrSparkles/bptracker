@@ -6,9 +6,7 @@
 const express = require('express');
 const router = express.Router();
 import usersModule from '../../modules/users';
-import getResponseJSON from "../../lib/response_object";
-import authConfig from '../../config/auth.config';
-import jwt from 'jsonwebtoken';
+import authMiddleware from '../../lib/tokenAuth.middleware';
 
 // open routes
 router.route('/authenticate')
@@ -19,32 +17,17 @@ router.route('/authenticate')
     });
   });
 
-// route middleware to verify a token
-router.use(function(req, res, next) {
-
-  // check header or url parameters or post parameters for token
-  const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-  // decode token
-  if (token) {
-
-    // verifies secret and checks exp
-    jwt.verify(token, authConfig.secret, function(err, decoded) {
-      if (err) {
-        return res.json(getResponseJSON("Failed authentication", true));
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        next();
-      }
+router.route('/')
+  .post((req, res) => {
+    const { body } = req;
+    usersModule.createNew(body, (err, docs) => {
+      return res.json(docs);
     });
+  });
 
-  }
-  else {
-    // bounce if no token
-    return res.status(403).send(getResponseJSON("No token provided.", true));
-  }
-});
+
+// apply auth middleware
+router.use(authMiddleware);
 
 /**
  * Routes at /api/user
@@ -54,13 +37,8 @@ router.route('/')
     usersModule.getAll((err, docs) => {
       return res.json(docs);
     });
-  })
-  .post((req, res) => {
-    const { body } = req;
-    usersModule.createNew(body, (err, docs) => {
-      return res.json(docs);
-    });
   });
+
 
 
 

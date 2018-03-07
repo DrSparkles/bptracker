@@ -4,17 +4,9 @@ var _users = require('../../modules/users');
 
 var _users2 = _interopRequireDefault(_users);
 
-var _response_object = require('../../lib/response_object');
+var _tokenAuth = require('../../lib/tokenAuth.middleware');
 
-var _response_object2 = _interopRequireDefault(_response_object);
-
-var _auth = require('../../config/auth.config');
-
-var _auth2 = _interopRequireDefault(_auth);
-
-var _jsonwebtoken = require('jsonwebtoken');
-
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+var _tokenAuth2 = _interopRequireDefault(_tokenAuth);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36,29 +28,7 @@ router.route('/authenticate').post((req, res) => {
 });
 
 // route middleware to verify a token
-router.use(function (req, res, next) {
-
-  // check header or url parameters or post parameters for token
-  const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-  // decode token
-  if (token) {
-
-    // verifies secret and checks exp
-    _jsonwebtoken2.default.verify(token, _auth2.default.secret, function (err, decoded) {
-      if (err) {
-        return res.json((0, _response_object2.default)("Failed authentication", true));
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else {
-    // bounce if no token
-    return res.status(403).send((0, _response_object2.default)("No token provided.", true));
-  }
-});
+router.use(_tokenAuth2.default);
 
 /**
  * Routes at /api/user

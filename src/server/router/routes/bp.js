@@ -1,11 +1,15 @@
+const express = require('express');
+const router = express.Router();
+import bpModule from '../../modules/bp';
+import authMiddleware from "../../lib/tokenAuth.middleware";
+
 /**
  * Blood Pressure API routes
  * @type {*|exports|module.exports}
  */
 
-var express = require('express');
-var router = express.Router();
-import bpModule from '../../modules/bp';
+// apply auth middleware
+router.use(authMiddleware);
 
 router.route('/')
   .get((req, res) => {
