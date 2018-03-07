@@ -4,16 +4,23 @@ var _bp = require('../../modules/bp');
 
 var _bp2 = _interopRequireDefault(_bp);
 
+var _tokenAuth = require('../../lib/tokenAuth.middleware');
+
+var _tokenAuth2 = _interopRequireDefault(_tokenAuth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const express = require('express');
+const router = express.Router();
+
 
 /**
  * Blood Pressure API routes
  * @type {*|exports|module.exports}
  */
 
-var express = require('express');
-var router = express.Router();
-
+// apply auth middleware
+router.use(_tokenAuth2.default);
 
 router.route('/').get((req, res) => {
   _bp2.default.getAll((err, docs) => {

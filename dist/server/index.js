@@ -38,10 +38,6 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
-var _jsonwebtoken = require('jsonwebtoken');
-
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
-
 var _auth = require('./config/auth.config');
 
 var _auth2 = _interopRequireDefault(_auth);

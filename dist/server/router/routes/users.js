@@ -27,7 +27,14 @@ router.route('/authenticate').post((req, res) => {
   });
 });
 
-// route middleware to verify a token
+router.route('/').post((req, res) => {
+  const { body } = req;
+  _users2.default.createNew(body, (err, docs) => {
+    return res.json(docs);
+  });
+});
+
+// apply auth middleware
 router.use(_tokenAuth2.default);
 
 /**
@@ -35,11 +42,6 @@ router.use(_tokenAuth2.default);
  */
 router.route('/').get((req, res) => {
   _users2.default.getAll((err, docs) => {
-    return res.json(docs);
-  });
-}).post((req, res) => {
-  const { body } = req;
-  _users2.default.createNew(body, (err, docs) => {
     return res.json(docs);
   });
 });
