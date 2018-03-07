@@ -34,6 +34,18 @@ var _webpack3 = require('../../webpack.config');
 
 var _webpack4 = _interopRequireDefault(_webpack3);
 
+var _morgan = require('morgan');
+
+var _morgan2 = _interopRequireDefault(_morgan);
+
+var _jsonwebtoken = require('jsonwebtoken');
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
+var _auth = require('./config/auth.config');
+
+var _auth2 = _interopRequireDefault(_auth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const { NODE_ENV = 'development', PORT = 3000 } = process.env;
@@ -43,16 +55,12 @@ const app = (0, _express2.default)();
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 
-/*
-var myLogger = function (req, res, next) {
-  console.log('REQ HOST', req.get('host'))
-  console.log('REQ ORIGNAL URL', req.originalUrl);
-  console.log('REQ URL', req.url);
-  next()
-};
+// set auth values
+app.set('authSecret', _auth2.default.secret);
+app.set('authExpireMinutes', _auth2.default.authExpireMinutes);
 
-app.use(myLogger);
-*/
+// use morgan to log requests to the console
+app.use((0, _morgan2.default)('dev'));
 
 // set up routing
 var apiRouter = require('./router')(app);

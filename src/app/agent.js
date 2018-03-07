@@ -1,7 +1,7 @@
 import axios from 'axios';
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
-import commonStore from '../stores/CommonStore';
+import commonStore from './stores/commonStore';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 const API_ROOT = '/api';
@@ -21,16 +21,24 @@ const responseBodyTesting = res => {
 
 };
 
+const tokenPlugin = req => {
+  if (commonStore.token) {
+    req.set('authorization', `Token ${commonStore.token}`);
+  }
+};
+
 const requests = {
   del: url => {
     return superagent
       .del(`${API_ROOT}${url}`)
+      .use(tokenPlugin)
       .end(handleErrors)
       .then(responseBody);
   },
   get: url => {
     let result = superagent
       .get(`${API_ROOT}${url}`)
+      .use(tokenPlugin)
       .end(handleErrors)
       .then(responseBody);
     return result;
@@ -38,6 +46,7 @@ const requests = {
   put: (url, body) => {
     return superagent
       .put(`${API_ROOT}${url}`, body)
+      .use(tokenPlugin)
       .end(handleErrors)
       .then(responseBody);
   },
@@ -45,6 +54,7 @@ const requests = {
     console.log("DBAgent body", body);
     return superagent
       .post(`${API_ROOT}${url}`, body)
+      .use(tokenPlugin)
       .end(handleErrors)
       .then(responseBody);
   },
