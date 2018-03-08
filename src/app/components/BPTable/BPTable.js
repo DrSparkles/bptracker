@@ -9,9 +9,6 @@ import LoadingSpinner from '../LoadingSpinner';
 export default class BPTable extends React.Component {
 
   render(){
-
-    console.log(this.props);
-    //const bpList = this.props.bpList;
     const {bpList} = this.props;
     const bpRows  = bpList.map((bpItem) => {
       return (

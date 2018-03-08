@@ -12,6 +12,7 @@ import Register from '../Register';
 import BPEditor from '../BPEditor';
 
 import mainStyles from '../../../styles/masterStyle.css';
+import PrivateRoute from "../../PrivateRoute";
 
 @inject('commonStore', 'userStore')
 @withRouter
@@ -44,7 +45,7 @@ export default class Layout extends React.Component {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/editor/:_id?" component={BPEditor} />
+            <PrivateRoute path="/editor/:_id?" component={BPEditor} />
             <Route path="/" component={Home} />
           </Switch>
 
