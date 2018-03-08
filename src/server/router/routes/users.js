@@ -1,16 +1,15 @@
-import jwt from "jsonwebtoken";
-
 /**
  * Blood Pressure API routes
  * @type {*|exports|module.exports}
  */
 
+
 const express = require('express');
 const router = express.Router();
 import usersModule from '../../modules/users';
 import authMiddleware from '../../lib/tokenAuth.middleware';
-import authConfig from "../../config/auth.config";
-import getResponseJSON from "../../lib/response_object";
+import { errorHandler } from "../../lib/db";
+
 
 /**
  * OPEN ROUTES
@@ -18,8 +17,8 @@ import getResponseJSON from "../../lib/response_object";
 router.route('/authenticate')
   .post((req, res) => {
     const { body } = req;
-    console.log("ROUTES USERS body", body);
     usersModule.authenticate(body, (err, docs) => {
+      if (err) return errorHandler(err, res);
       return res.json(docs);
     });
   });
@@ -28,6 +27,7 @@ router.route('/')
   .post((req, res) => {
     const { body } = req;
     usersModule.createNew(body, (err, docs) => {
+      if (err) return errorHandler(err, res);
       return res.json(docs);
     });
   });
@@ -45,6 +45,7 @@ router.route('/user')
   .get((req, res) => {
     const userToken = req.get('x-access-token');
     usersModule.getUserByToken(userToken, (err, docs) => {
+      if (err) return errorHandler(err, res);
       return res.json(docs);
     });
   });
@@ -52,10 +53,7 @@ router.route('/user')
 router.route('/all')
   .get((req, res) => {
     usersModule.getAll((err, docs) => {
-      console.log(err);
-      if (err){
-        return res.status(400).json(docs);
-      }
+      if (err) return errorHandler(err, res);
       return res.json(docs);
     });
   });

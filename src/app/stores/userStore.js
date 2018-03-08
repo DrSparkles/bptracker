@@ -13,23 +13,27 @@ class UserStore {
     return agent.Auth
       .current()
       .then(action((user) => {
-        console.log("USERSTORE pullUser user", user.result.user);
         return this.currentUser = user.result.user;
       }))
       .finally(action(() => { this.loadingUser = false; }))
-  }
-
-  @action updateUser(newUser) {
-    this.updatingUser = true;
-    return agent.Auth.save(newUser)
-      .then(action((user) => { this.currentUser = user.result; }))
-      .finally(action(() => { this.updatingUser = false; }))
   }
 
   @action forgetUser() {
     this.currentUser = undefined;
   }
 
+
+  /*
+
+    UPCOMING FEATURE
+
+    @action updateUser(newUser) {
+      this.updatingUser = true;
+      return agent.Auth.save(newUser)
+        .then(action((user) => { this.currentUser = user.result; }))
+        .finally(action(() => { this.updatingUser = false; }))
+    }
+  */
 }
 
 export default new UserStore();

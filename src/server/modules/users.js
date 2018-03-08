@@ -1,4 +1,4 @@
-import { db, returnSimpleResult, getIdFromJSON } from '../lib/db';
+import { db, returnSimpleResult, returnSimpleError, getIdFromJSON } from '../lib/db';
 import authConfig from '../config/auth.config';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -13,7 +13,7 @@ class User {
     const { username, password } = userValues;
 
     // make sure our values are set
-    if (username == undefined || username == "" || password == undefined || password == ""){
+    if (username === undefined || username === "" || password === undefined || password === ""){
       return returnSimpleResult("Username and password must not be blank.", {}, cb);
     }
 
@@ -37,20 +37,17 @@ class User {
   authenticate(userValues, cb){
 
     const { username, password } = userValues;
-    console.log("TRYING TO AUTHENTICATE");
-    console.log("auth username", username);
-    console.log("auth password", password);
+
     // make sure our values are set
     if (username == undefined || username == "" || password == undefined || password == ""){
-      return returnSimpleResult("Username and password must not be blank.", {}, cb);
+      return returnSimpleError("Username and password must not be blank.", 400, cb);
     }
 
     this.user_collection.findOne({username}, (err, userDoc) => {
       if (err) return returnSimpleResult(err, doc, cb);
 
-      if (!userDoc){
-        return returnSimpleResult("User " + username + " not found.", {}, cb);
-      }
+      if (!userDoc) return returnSimpleError("User " + username + " not found.", 400, cb);
+
 
       if(bcrypt.compareSync(password, userDoc.password)) {
 
@@ -59,11 +56,10 @@ class User {
         };
 
         const token = jwt.sign(payload, authConfig.secret);
-        console.log("SERVER USERS: LOGGED IN, PASSING BACK TOKEN");
         return returnSimpleResult(err, {token}, cb);
       }
       else {
-        return returnSimpleResult("Password does not match our records.", {}, cb);
+        return returnSimpleError("Password does not match our records.", 400, cb);
       }
 
     });
@@ -71,26 +67,22 @@ class User {
 
   getUserByToken(userToken, cb){
     const payload = jwt.decode(userToken);
+    if (!payload){
+      return returnSimpleError("Could not derive user from auth token.", 400, cb);
+    }
     return this.getUserByUsername(payload, cb);
   }
 
   getUserByUsername(username, cb){
     this.user_collection.findOne({username: username.username}, ['_id', 'username'], (err, user) => {
+      if (!user) return returnSimpleError("User " + username + " not found.", 400, cb);
       return returnSimpleResult(err, {user}, cb)
     });
   }
 
   getAll(cb){
-
     this.user_collection.find({}, ["_id", "username"], (err, docs) => {
       return returnSimpleResult(err, docs, cb);
-    });
-  }
-
-  searchByUsername(username, cb){
-    this.user_collection.find({username}, (err, userDoc) => {
-      const doc = {_id: userDoc._id, username: userDoc.username};
-      return returnSimpleResult(err, doc, cb);
     });
   }
 }
