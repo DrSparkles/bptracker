@@ -1,0 +1,31 @@
+
+body {
+    background-color:#CCC;
+    text-align:center;
+    margin:0;
+    padding:0;
+    font-family:sans-serif;
+    font-size:small;
+}
+
+a {
+    border:none;
+    color:#808080;
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:underline;
+}
+
+a img {
+    border:2px solid #FFF; /* add hidden border so hover border won't move picture */
+}
+
+a:hover img {
+    border:2px solid #CCC;
+}
+
+fieldset {
+    border:none;
+}

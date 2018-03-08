@@ -10,8 +10,7 @@ import Home from '../Home';
 import Login from '../Login';
 import Register from '../Register';
 
-// import Nav from '../../Nav/Nav';<Nav />
-// import Footer from '../../Footer/Footer';<Footer />
+import mainStyles from '../../../styles/masterStyle.css';
 
 @inject('commonStore', 'userStore')
 @withRouter
