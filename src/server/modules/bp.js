@@ -1,4 +1,4 @@
-import { db, returnSimpleResult, getIdFromJSON } from '../lib/db';
+import { db, returnSimpleResult, getId, getIdFromJSON } from '../lib/db';
 import { ObjectID } from 'mongodb';
 
 class BP {
@@ -8,7 +8,8 @@ class BP {
   }
 
   createNew(bpValues, cb){
-
+    console.log("MODULES createNew body", bpValues);
+    bpValues.userId = getId(bpValues.userId);
     this.bp_collection.insert(bpValues, (err, doc) => {
       return returnSimpleResult(err, doc, cb);
     });
@@ -21,11 +22,18 @@ class BP {
     });
   }
 
+  getAllForUser(userId, cb){
+    const userObjectId = getId(userId);
+    this.bp_collection.find({userId: userObjectId}, (err, doc) => {
+      return returnSimpleResult(err, doc, cb);
+    });
+  }
+
   getByValue(searchTerms, cb){
 
     // make sure we're searching on the correct item type
     if (searchTerms._id != 'undefined'){
-      searchTerms._id = new ObjectID(searchTerms._id);
+      searchTerms._id = getIdFromJSON(searchTerms);
     }
 
     this.bp_collection.find(searchTerms, (err, doc) => {
@@ -43,6 +51,7 @@ class BP {
 
   editEntry(_id, updateValues, cb){
     const query = {_id: getIdFromJSON(_id)};
+    updateValues.userId = getId(updateValues.userId);
     this.bp_collection.update(query, updateValues, (err, doc) => {
       return returnSimpleResult(err, doc, cb);
     });

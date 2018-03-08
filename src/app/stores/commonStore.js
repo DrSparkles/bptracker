@@ -7,8 +7,7 @@ class CommonStore {
   @observable token = window.localStorage.getItem('jwt');
   @observable appLoaded = false;
 
-  @observable tags = [];
-  @observable isLoadingTags = false;
+  @observable datetimeFormat = 'YYYY-MM-DD HH:mm';
 
   constructor() {
     reaction(

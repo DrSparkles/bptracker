@@ -9,9 +9,7 @@ import Header from '../../Header';
 import Home from '../Home';
 import Login from '../Login';
 import Register from '../Register';
-
-// import Nav from '../../Nav/Nav';<Nav />
-// import Footer from '../../Footer/Footer';<Footer />
+import BPEditor from '../BPEditor';
 
 @inject('commonStore', 'userStore')
 @withRouter
@@ -44,6 +42,7 @@ export default class Layout extends React.Component {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/editor/:_id?" component={BPEditor} />
             <Route path="/" component={Home} />
           </Switch>
 

@@ -9,6 +9,10 @@ export function getIdFromJSON(_id){
   return db.id(_id._id);
 }
 
+export function getId(id){
+  return db.id(id);
+}
+
 export function returnSimpleResult(err, doc, cb){
   console.log("DB RETURNSIMPLERESULT err", err);
   console.log("DB RETURNSIMPLERESULT doc", doc);

@@ -13,8 +13,8 @@ class UserStore {
     return agent.Auth
       .current()
       .then(action((user) => {
-        console.log("USERSTORE pullUser user", user);
-        return this.currentUser = user;
+        console.log("USERSTORE pullUser user", user.result.user);
+        return this.currentUser = user.result.user;
       }))
       .finally(action(() => { this.loadingUser = false; }))
   }
@@ -22,7 +22,7 @@ class UserStore {
   @action updateUser(newUser) {
     this.updatingUser = true;
     return agent.Auth.save(newUser)
-      .then(action(({ user }) => { this.currentUser = user; }))
+      .then(action((user) => { this.currentUser = user.result; }))
       .finally(action(() => { this.updatingUser = false; }))
   }
 

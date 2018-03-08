@@ -9,13 +9,15 @@ import Layout from "./components/pages/Layout/Layout";
 import commonStore from './stores/commonStore';
 import authStore from './stores/authStore';
 import userStore from './stores/userStore';
-// import bpStore from './stores/BPStore';
+import bpEditorStore from './stores/bpEditorStore';
+import bpStore from './stores/bpStore';
 
 const stores = {
   commonStore,
   authStore,
   userStore,
-  // bpStore
+  bpEditorStore,
+  bpStore
 };
 
 const app = document.getElementById("app-container");

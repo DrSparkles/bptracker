@@ -13,6 +13,7 @@ router.use(authMiddleware);
 
 router.route('/')
   .get((req, res) => {
+
     bpModule.getAll((err, docs) => {
       return res.json(docs);
     });
@@ -20,6 +21,15 @@ router.route('/')
   .post((req, res) => {
     const { body } = req;
     bpModule.createNew(body, (err, docs) => {
+      return res.json(docs);
+    });
+  });
+
+router.route('/user/:_id')
+  .get((req, res) => {
+    const userId = req.params;
+    console.log("routes bp get all userid", userId._id);
+    bpModule.getAllForUser(userId._id, (err, docs) => {
       return res.json(docs);
     });
   });

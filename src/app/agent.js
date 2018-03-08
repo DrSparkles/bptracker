@@ -17,7 +17,6 @@ const handleErrors = err => {
 
 //const responseBody = res => res.body;
 const responseBody = res => {
-  console.log(res);
   return JSON.parse(res.text);
 }
 const responseBodyTesting = res => {
@@ -82,8 +81,16 @@ const Auth = {
 };
 
 const BP = {
-  get: () => {
+  getAll: () => {
     return requests.get('/bp');
+  },
+  getAllForUser: (userId) => {
+    const url = '/bp/user/' + userId;
+    return requests.get(url);
+  },
+  getEntry: (bpId) => {
+    const url = "/bp/" + bpId;
+    return requests.get(url);
   },
   createNew: (saveData) => {
     console.log("DBAgent saveData", saveData);
