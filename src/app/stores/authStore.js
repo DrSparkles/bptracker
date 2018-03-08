@@ -33,7 +33,6 @@ class AuthStore {
     return agent.Auth
       .login(this.values.username, this.values.password)
       .then ((userToken) => {
-        throw new Error("TESTING ERRORS ON LOGIN");
         console.log("TOKEN", userToken);
         commonStore.setToken(userToken.result.token);
       })

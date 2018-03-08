@@ -7,7 +7,9 @@ import BPTable from '../BPTable';
 export default class Home extends React.Component {
 
   componentWillMount() {
-
+    if (this.props.userStore.currentUser){
+      this.props.bpStore.loadAllBPsForUser();
+    }
   }
 
   componentDidMount() {
@@ -24,15 +26,19 @@ export default class Home extends React.Component {
   render(){
 
     const { bpList, isLoading } = this.props.bpStore;
-
-    return (
-      <div id='Home'>
-        <BPTable
-          bpList={bpList}
-          isLoading={isLoading}
-          onDelete={this.handleDeleteRow}
-        />
-      </div>
-    );
+    if (this.props.userStore.currentUser){
+      return (
+        <div id='Home'>
+          <BPTable
+            bpList={bpList}
+            isLoading={isLoading}
+            onDelete={this.handleDeleteRow}
+          />
+        </div>
+      );
+    }
+    else {
+      return (<div id='Home'></div>);
+    }
   }
 }
