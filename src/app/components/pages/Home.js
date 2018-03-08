@@ -2,7 +2,7 @@ import React from "react";
 import { inject, observer } from 'mobx-react';
 import BPTable from '../BPTable';
 
-@inject('bpStore')
+@inject('bpStore', 'userStore')
 @observer
 export default class Home extends React.Component {
 
@@ -11,15 +11,18 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.props.bpStore.loadAllBPsForUser();
+    if (this.props.userStore.currentUser){
+      this.props.bpStore.loadAllBPsForUser();
+    }
   }
 
-  handleDeleteRow = () => {};
-  handleEditRow = () => {};
+  handleDeleteRow = id => {
+    this.props.bpStore.deleteBP(id)
+      .then(() => this.props.history.replace('/'));
+  };
 
   render(){
 
-    //const { currentUser } = this.props.userStore;
     const { bpList, isLoading } = this.props.bpStore;
 
     return (
@@ -28,7 +31,6 @@ export default class Home extends React.Component {
           bpList={bpList}
           isLoading={isLoading}
           onDelete={this.handleDeleteRow}
-          onSelectToEdit={this.handleEditRow}
         />
       </div>
     );

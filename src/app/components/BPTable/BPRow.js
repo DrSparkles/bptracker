@@ -9,8 +9,6 @@ export default class BPRow extends React.Component {
 
   onDelete = () => this.props.onDelete(this.props.bpData._id);
 
-  onSelectToEdit = () => this.props.onSelectToEdit(this.props.bpData._id);
-
   render(){
     const _id = this.props.bpData._id;
     return (
@@ -21,7 +19,7 @@ export default class BPRow extends React.Component {
         <td>{this.props.bpData.pulse}</td>
         <td>{this.props.bpData.notes}</td>
         <td>
-          <Link to={"/editor/" + _id} onClick={this.onSelectToEdit.bind(this)}>Edit</Link>
+          <Link to={"/editor/" + _id}>Edit</Link>
           &nbsp;/&nbsp;
 
           <button onClick={this.onDelete}>

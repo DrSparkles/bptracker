@@ -68,7 +68,8 @@ class BPStore {
     this.bpRegistry
       .delete(bpId);
 
-    return agent.BP.del(bpId)
+    return agent.BP
+      .deleteEntry(bpId)
       .catch(action(err => { this.loadAllBPs(); throw err; }));
   }
 

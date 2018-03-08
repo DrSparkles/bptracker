@@ -19,6 +19,7 @@ const handleErrors = err => {
 const responseBody = res => {
   return JSON.parse(res.text);
 }
+
 const responseBodyTesting = res => {
   console.log("DBAGENT TESTING res.text", JSON.parse(res.text));
   console.log("RES", res);
@@ -73,7 +74,7 @@ const Auth = {
     return requests.post('/users/authenticate', { username, password })
   },
   register: (username, password) => {
-    return requests.post('/users', { user: { username, password } })
+    return requests.post('/users', { username, password })
   },
   save: user => {
     return requests.put('/user', { user })

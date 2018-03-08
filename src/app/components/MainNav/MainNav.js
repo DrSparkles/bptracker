@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { inject, observer } from 'mobx-react';
 
 import styles from './styles.css';
 
 @inject('userStore', 'commonStore', 'authStore')
+@withRouter
 @observer
 export default class MainNav extends React.Component {
 
