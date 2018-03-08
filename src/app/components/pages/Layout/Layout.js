@@ -11,6 +11,8 @@ import Login from '../Login';
 import Register from '../Register';
 import BPEditor from '../BPEditor';
 
+import mainStyles from '../../../styles/masterStyle.css';
+
 @inject('commonStore', 'userStore')
 @withRouter
 @observer
