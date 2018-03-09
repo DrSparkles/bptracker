@@ -1,4 +1,3 @@
-import axios from 'axios';
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
 import commonStore from './stores/commonStore';
@@ -7,31 +6,54 @@ import authStore from './stores/authStore';
 const superagent = superagentPromise(_superagent, global.Promise);
 const API_ROOT = '/api';
 
+/**
+ * Middleware to handle specific status errors
+ * If 401 (not authorized) log the user out
+ * @param err
+ * @returns {*}
+ */
 const handleErrors = err => {
-  console.log("AGENT handleErrors err", err);
   if (err && err.response && err.response.status === 401) {
     authStore.logout();
   }
   return err;
 };
 
-//const responseBody = res => res.body;
+/**
+ * Extract the payload from the server response
+ * @param res
+ * @returns {any}
+ */
 const responseBody = res => {
   return JSON.parse(res.text);
-}
+};
 
+/**
+ * Simple testing function to examine payloads
+ * @param res
+ * @returns {any}
+ */
 const responseBodyTesting = res => {
   console.log("DBAGENT TESTING res.text", JSON.parse(res.text));
   console.log("RES", res);
   return JSON.parse(res.text);
 };
 
+/**
+ * Set up superagent to use token authentication
+ * @param req
+ */
 const tokenPlugin = req => {
   if (commonStore.token) {
     req.set('x-access-token', commonStore.token);
   }
 };
 
+/**
+ * Simplify the actual requests by standardizing each REST behavior, setting up superagent
+ * with required plugins and error handlers.
+ * @type {{del: function(*), get: function(*), put: function(*, *=), post: function(*, *=)}}
+ */
 const requests = {
   del: url => {
     return superagent
@@ -41,12 +63,11 @@ const requests = {
       .then(responseBody);
   },
   get: url => {
-    let result = superagent
+    return superagent
       .get(`${API_ROOT}${url}`)
       .use(tokenPlugin)
       .end(handleErrors)
       .then(responseBody);
-    return result;
   },
   put: (url, body) => {
     return superagent
@@ -64,13 +85,15 @@ const requests = {
   },
 };
 
+/**
+ * Auth routes
+ * @type {{current: function(), login: function(*=, *=), register: function(*, *), save: function(*)}}
+ */
 const Auth = {
   current: () => {
     return requests.get('/users/user')
   },
   login: (username, password) => {
-    console.log("AGENT login username", username);
-    console.log("AGENT login password", password);
     return requests.post('/users/authenticate', { username, password })
   },
   register: (username, password) => {
@@ -81,6 +104,10 @@ const Auth = {
   }
 };
 
+/**
+ * Blood Pressure routes
+ * @type {{getAll: function(), getAllForUser: function(*), getEntry: function(*), createNew: function(*=), editEntry: function(*=), deleteEntry: function(*)}}
+ */
 const BP = {
   getAll: () => {
     return requests.get('/bp');
@@ -94,12 +121,10 @@ const BP = {
     return requests.get(url);
   },
   createNew: (saveData) => {
-    console.log("DBAgent saveData", saveData);
     return requests.post('/bp', saveData);
   },
   editEntry: (saveData) => {
     const url = '/bp/' + saveData._id;
-    console.log("DBAgent edit data", saveData);
     return requests.put(url, saveData);
   },
   deleteEntry: (_id) => {
