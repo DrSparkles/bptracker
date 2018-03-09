@@ -14,11 +14,11 @@ class Header extends React.Component {
     return (
       <div id='Header'>
         <nav className="navbar navbar-light">
-
-          <Link to="/">
-            {this.props.commonStore.appName}
-          </Link>
-
+          <h1>
+            <Link to="/">
+              {this.props.commonStore.appName}
+            </Link>
+          </h1>
           <MainNav />
         </nav>
       </div>

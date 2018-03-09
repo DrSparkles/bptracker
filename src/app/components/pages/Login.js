@@ -3,6 +3,11 @@ import ListErrors from '../ListErrors';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
+const btnStyle = {
+  "backgroundColor": "5f0f0f",
+  "color": "FFFFFF"
+};
+
 /**
  * Login form
  */
@@ -32,45 +37,57 @@ export default class Login extends React.Component {
 
     return (
       <div id="Login">
-        <h1>Sign In</h1>
-        <p>
-          <Link to="register">
-            Need an account?
-          </Link>
-        </p>
+        <div className="row">
 
-        <ListErrors errors={errors} />
+          <div className="col-md-6 offset-md-3 col-xs-12">
+            <h1 className="text-xs-center">Sign In</h1>
+            <p className="text-xs-center">
+              <Link to="register">
+                Need an account?
+              </Link>
+            </p>
 
-        <form onSubmit={this.handleSubmitForm}>
-          <fieldset>
+            <ListErrors errors={errors} />
 
-            <fieldset>
-              <input
-                type="username"
-                placeholder="User Name"
-                value={values.username}
-                onChange={this.handleUsernameChange}
-              />
-            </fieldset>
+            <form>
+              <div className="form-group">
 
-            <fieldset>
-              <input
-                type="password"
-                placeholder="Password"
-                value={values.password}
-                onChange={this.handlePasswordChange}
-              />
-            </fieldset>
+                <div className="form-group">
+                  <input
+                    type="username"
+                    placeholder="User Name"
+                    value={values.username}
+                    onChange={this.handleUsernameChange}
+                    className="form-control form-control-sm"
+                  />
+                </div>
 
-            <button
-              type="submit"
-              disabled={inProgress}
-            >
-              Sign in
-            </button>
+                <div className="form-group">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={values.password}
+                    onChange={this.handlePasswordChange}
+                    className="form-control form-control-sm"
+                  />
+                </div>
 
-          </fieldset>
-        </form>
+                <div className="form-group text-center">
+                  <button
+                    onClick={this.handleSubmitForm}
+                    type="button"
+                    disabled={inProgress}
+                    className="btn btn-sm"
+                    style={btnStyle}
+                  >
+                    Sign in
+                  </button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }

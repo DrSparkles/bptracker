@@ -35,21 +35,15 @@ export default class MainNav extends React.Component {
 const LoggedOutView = props => {
   if (!props.currentUser) {
     return (
-      <ul>
+      <ul className='nav'>
 
-        <li>
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-        </li>
-
-        <li>
+        <li className="nav-item">
           <Link to="/login" className="nav-link">
             Sign in
           </Link>
         </li>
 
-        <li>
+        <li className="nav-item">
           <Link to="/register" className="nav-link">
             Sign up
           </Link>
@@ -64,22 +58,16 @@ const LoggedOutView = props => {
 const LoggedInView = props => {
   if (props.currentUser) {
     return (
-      <ul>
+      <ul className='nav'>
 
-        <li>
-          <Link to="/">
-            Home
-          </Link>
-        </li>
-
-        <li>
-          <Link to="/editor">
+        <li className="nav-item">
+          <Link to="/editor" className="nav-link">
             New Entry
           </Link>
         </li>
 
-        <li>
-          <a href='#' onClick={props.onLogout}>Log Out</a>
+        <li className="nav-item">
+          <a href='#' onClick={props.onLogout} className="nav-link">Log Out</a>
         </li>
       </ul>
     );

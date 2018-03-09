@@ -5,6 +5,11 @@ import { withRouter } from 'react-router-dom';
 import bpEditorStore from "../../stores/bpEditorStore";
 import commonStore from "../../stores/commonStore";
 
+const btnStyle = {
+  "backgroundColor": "5f0f0f",
+  "color": "FFFFFF"
+};
+
 /**
  * Form for adding / editing bp values
  */
@@ -74,68 +79,82 @@ export default class BPEditor extends React.Component {
 
     return(
       <div id="BPEditor">
-        <ListErrors errors={errors} />
+        <div className="row">
 
-        <form>
-          <fieldset>
-            <fieldset>
-              <input
-                type="text"
-                placeholder={this.datetimeFormat}
-                value={datetime}
-                onChange={this.changeDatetime}
-                disabled={inProgress}
-              />
-            </fieldset>
+          <div className="col-md-6 offset-md-3 col-xs-12">
+            <ListErrors errors={errors} />
 
-            <fieldset>
-              <input
-                type="text"
-                placeholder="Sys"
-                value={sys}
-                onChange={this.changeSys}
-                disabled={inProgress}
-              />
-            </fieldset>
+            <form>
+              <div className="form-group">
+                <div className="form-group">
+                  <input
+                    type="text"
+                    placeholder={this.datetimeFormat}
+                    value={datetime}
+                    onChange={this.changeDatetime}
+                    disabled={inProgress}
+                    className="form-control form-control-sm"
+                  />
+                </div>
 
-            <fieldset>
-              <input
-                type="text"
-                placeholder="Dia"
-                value={dia}
-                onChange={this.changeDia}
-                disabled={inProgress}
-              />
-            </fieldset>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    placeholder="Sys"
+                    value={sys}
+                    onChange={this.changeSys}
+                    disabled={inProgress}
+                    className="form-control form-control-sm"
+                  />
+                </div>
 
-            <fieldset>
-              <input
-                type="text"
-                placeholder="Pulse"
-                value={pulse}
-                onChange={this.changePulse}
-                disabled={inProgress}
-              />
-            </fieldset>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    placeholder="Dia"
+                    value={dia}
+                    onChange={this.changeDia}
+                    disabled={inProgress}
+                    className="form-control form-control-sm"
+                  />
+                </div>
 
-            <fieldset>
-              <textarea
-                placeholder="Notes"
-                value={notes}
-                onChange={this.changeNotes}
-                disabled={inProgress}
-              />
-            </fieldset>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    placeholder="Pulse"
+                    value={pulse}
+                    onChange={this.changePulse}
+                    disabled={inProgress}
+                    className="form-control form-control-sm"
+                  />
+                </div>
 
-            <button
-              type="button"
-              disabled={inProgress}
-              onClick={this.submitForm}
-            >
-              Save
-            </button>
-          </fieldset>
-        </form>
+                <div className="form-group">
+                  <textarea
+                    placeholder="Notes"
+                    value={notes}
+                    onChange={this.changeNotes}
+                    disabled={inProgress}
+                    className="form-control form-control-sm"
+                  />
+                </div>
+
+                <div className="form-group text-center">
+                  <button
+                    type="button"
+                    disabled={inProgress}
+                    onClick={this.submitForm}
+                    className="btn btn-sm"
+                    style={btnStyle}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }

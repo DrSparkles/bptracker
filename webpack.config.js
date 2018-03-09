@@ -9,7 +9,6 @@ const SRC = resolve(ROOT, 'src');
 const VENDORS = [
   'react',
   'react-dom',
-  'axios',
   //'lodash.times',
   //'semantic-ui-react',
 ];

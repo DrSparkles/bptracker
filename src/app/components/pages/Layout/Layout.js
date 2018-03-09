@@ -38,7 +38,7 @@ export default class Layout extends React.Component {
     if (this.props.commonStore.appLoaded) {
       return (
 
-        <div id='Layout' className={layoutStyles.pageContainer}>
+        <div id='Layout' className="container">
           <Header />
           <Switch>
             <Route path="/login" component={Login} />
@@ -52,7 +52,7 @@ export default class Layout extends React.Component {
     }
     else {
       return (
-        <div id='Layout' className={layoutStyles.pageContainer}>
+        <div id='Layout' className="container">
           <Header />
         </div>
       );

@@ -26,6 +26,10 @@ export default class Home extends React.Component {
       .then(() => this.props.history.replace('/'));
   };
 
+  handleEditRow = id => {
+    this.props.history.replace('/editor/' + id );
+  };
+
   render(){
 
     const { bpList, isLoading } = this.props.bpStore;
@@ -36,6 +40,7 @@ export default class Home extends React.Component {
             bpList={bpList}
             isLoading={isLoading}
             onDelete={this.handleDeleteRow}
+            onEdit={this.handleEditRow}
           />
         </div>
       );

@@ -1,25 +1,26 @@
 
-body {
-    background-color:#CCC;
-    text-align:center;
-    margin:0;
-    padding:0;
-    font-family:sans-serif;
-    font-size:small;
+h1, h2, h3, h4 {
+    color:#5f0f0f;
+}
+
+h1 a:hover {
+    color:#5f0f0f;
+    text-decoration:none;
 }
 
 a {
     border:none;
-    color:#808080;
+    color:#5f0f0f;
     text-decoration:none;
 }
 
 a:hover {
+    color: #9d454b;
     text-decoration:underline;
 }
 
 a img {
-    border:2px solid #FFF; /* add hidden border so hover border won't move picture */
+    border:2px solid #FFF;
 }
 
 a:hover img {
@@ -28,4 +29,14 @@ a:hover img {
 
 fieldset {
     border:none;
+}
+
+button {
+    background-color:#5f0f0f;
+    color: #FFF;
+}
+
+.btn-primary {
+    background-color: #5f0f0f;
+    color: #FFF;
 }

@@ -1,8 +1,9 @@
 import React from "react";
 import { observer } from 'mobx-react';
-import styles from './styles.css';
 import BPRow from './BPRow';
 import LoadingSpinner from '../LoadingSpinner';
+
+import styles from './styles.css';
 
 /**
  * Display table for a user's BP Values
@@ -18,7 +19,7 @@ export default class BPTable extends React.Component {
           key={bpItem._id}
           bpData={bpItem}
           onDelete={this.props.onDelete}
-          onSelectToEdit={this.props.onSelectToEdit}
+          onEdit={this.props.onEdit}
         />
       );
     });
@@ -26,7 +27,7 @@ export default class BPTable extends React.Component {
     if (this.props.isLoading === false){
       return (
         <div id='BPTable'>
-          <table className={styles.bpTable}>
+          <table className="table table-sm table-striped">
             <thead>
               <tr>
                 <th>Date</th>
