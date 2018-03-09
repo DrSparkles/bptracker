@@ -5,7 +5,7 @@ import authMiddleware from "../../lib/tokenAuth.middleware";
 import { errorHandler } from "../../lib/db";
 
 /**
- * Blood Pressure API routes
+ * Blood Pressure API routes; all are protected
  * @type {*|exports|module.exports}
  */
 

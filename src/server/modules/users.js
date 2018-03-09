@@ -3,12 +3,25 @@ import authConfig from '../config/auth.config';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+/**
+ * Handle user auth
+ */
 class User {
 
   constructor(){
     this.user_collection = db.get('users');
   }
 
+  /**
+   * Create a new user in the system
+   * {
+   *    username: STRING,
+   *    password: STRING
+   * }
+   * @param {object} userValues
+   * @param cb
+   * @returns {*}
+   */
   createNew(userValues, cb){
     const { username, password } = userValues;
 
@@ -34,6 +47,16 @@ class User {
 
   }
 
+  /**
+   * Authenticate a user given username and password
+   * {
+   *    username: STRING,
+   *    password: STRING
+   * }
+   * @param userValues
+   * @param cb
+   * @returns {*}
+   */
   authenticate(userValues, cb){
 
     const { username, password } = userValues;
@@ -43,21 +66,26 @@ class User {
       return returnSimpleError("Username and password must not be blank.", 400, cb);
     }
 
+    // check to see if the username existss
     this.user_collection.findOne({username}, (err, userDoc) => {
       if (err) return returnSimpleResult(err, doc, cb);
 
+      // and return if it does not exist
       if (!userDoc) return returnSimpleError("User " + username + " not found.", 400, cb);
 
-
+      // else compare the hashed password to what was sent
       if(bcrypt.compareSync(password, userDoc.password)) {
 
         const payload = {
           username
         };
 
+        // return the token
         const token = jwt.sign(payload, authConfig.secret);
         return returnSimpleResult(err, {token}, cb);
       }
+
+      // error out if the password doesn't match
       else {
         return returnSimpleError("Password does not match our records.", 400, cb);
       }
@@ -65,6 +93,12 @@ class User {
     });
   }
 
+  /**
+   * Given a token, fetch the user
+   * @param {string} userToken
+   * @param cb
+   * @returns {*}
+   */
   getUserByToken(userToken, cb){
     const payload = jwt.decode(userToken);
     if (!payload){
@@ -73,6 +107,11 @@ class User {
     return this.getUserByUsername(payload, cb);
   }
 
+  /**
+   * Fetch a user by the username
+   * @param username
+   * @param cb
+   */
   getUserByUsername(username, cb){
     this.user_collection.findOne({username: username.username}, ['_id', 'username'], (err, user) => {
       if (!user) return returnSimpleError("User " + username + " not found.", 400, cb);
@@ -80,6 +119,10 @@ class User {
     });
   }
 
+  /**
+   * Fetch all users
+   * @param cb
+   */
   getAll(cb){
     this.user_collection.find({}, ["_id", "username"], (err, docs) => {
       return returnSimpleResult(err, docs, cb);

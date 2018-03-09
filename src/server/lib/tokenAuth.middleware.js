@@ -1,8 +1,14 @@
 import jwt from "jsonwebtoken";
-import getResponseJSON from "./response_object";
+import {getResponseJSON} from "./db";
 import authConfig from "../config/auth.config";
 
-
+/**
+ * Using token authentication, handle auth in Express route middleware
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*|Request|undefined|void}
+ */
 export default function authMiddleware(req, res, next) {
 
   // check header or url parameters or post parameters for token

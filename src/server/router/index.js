@@ -1,5 +1,5 @@
 /**
- * Set up the various sub routes of the application
+ * Set up the various sub routes of the application loaded by route "section" such as bp or users
  * @param app
  */
 module.exports = function(app){

@@ -2,23 +2,48 @@ import dbConfig from '../config/db.config';
 import mongo from 'mongodb';
 import monk from 'monk';
 
+/**
+ * Connect to our database
+ * @type {Promise<"monk".IMonkManager> & "monk".IMonkManager}
+ */
 export const db = monk(dbConfig.connection);
 
-export function getIdFromJSON(_id){
-  return db.id(_id._id);
+/**
+ * Given an id in a json object, return an ObjectId
+ * The object should be a collection of values containing _id
+ * @param {object} _id
+ */
+export function getIdFromJSON(obj){
+  return db.id(obj._id);
 }
 
+/**
+ * Get an ObjectId from a string
+ * @param {string} id
+ */
 export function getId(id){
   return db.id(id);
 }
 
-function getResponseJSON(values, isError = false){
+/**
+ * Format return data for sending
+ * @param values
+ * @param isError
+ * @returns {{error: boolean, result: *}}
+ */
+export function getResponseJSON(values, isError = false){
   return {
     error: isError,
     result: values
   };
 }
 
+/**
+ * Handle errors
+ * @param err
+ * @param res
+ * @returns {*}
+ */
 export function errorHandler(err, res) {
   res.status(err.status || 500);
   return res.json({
@@ -49,6 +74,15 @@ export function returnSimpleError(err, status, cb){
   }
 }
 
+/**
+ * Return a result
+ * If an error is passed in, return that
+ * Else return a successful result
+ * @param err
+ * @param doc
+ * @param cb
+ * @returns {*}
+ */
 export function returnSimpleResult(err, doc, cb){
   if (err){
     return cb(returnSimpleError(err));
