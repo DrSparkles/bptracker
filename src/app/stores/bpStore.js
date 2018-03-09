@@ -1,6 +1,8 @@
 import { observable, action, computed } from 'mobx';
 import agent from '../agent';
 import userStore from './userStore';
+import commonStore from './commonStore';
+import moment from 'moment';
 
 /**
  * App state for Blood Pressure entries
@@ -48,7 +50,10 @@ class BPStore {
       .then(action((bpItems) => {
         this.bpRegistry.clear();
         const bpItemData = bpItems.result;
-        bpItemData.forEach(bp => this.bpRegistry.set(bp._id, bp));
+        bpItemData.forEach((bp) => {
+          bp.datetime = moment.unix(bp.datetime).format(commonStore.datetimeFormat);
+          this.bpRegistry.set(bp._id, bp);
+        });
       }))
       .catch(action((err) => {
         this.errors = err.response && err.response.body && err.response.body.message;
@@ -71,6 +76,8 @@ class BPStore {
    * @returns {Promise<T>}
    */
   @action createBP(data) {
+    data.datetime = moment(data.datetime, commonStore.datetimeFormat).unix();
+
     return agent.BP
       .createNew(data)
       .then((bp) => {
@@ -99,6 +106,7 @@ class BPStore {
    * @returns {Promise<T>}
    */
   @action updateBP(data) {
+    data.datetime = moment(data.datetime, commonStore.datetimeFormat).unix();
     return agent.BP
       .editEntry(data)
       .then((bp) => {

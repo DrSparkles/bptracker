@@ -85,7 +85,7 @@ class BP {
 
     // else return our data
     const userObjectId = getId(userId);
-    this.bp_collection.find({userId: userObjectId}, (err, doc) => {
+    this.bp_collection.find({userId: userObjectId}, {sort: {datetime: -1}}, (err, doc) => {
       return returnSimpleResult(err, doc, cb);
     });
   }
@@ -102,7 +102,7 @@ class BP {
       searchTerms._id = getIdFromJSON(searchTerms);
     }
 
-    this.bp_collection.find(searchTerms, (err, doc) => {
+    this.bp_collection.find(searchTerms, {}, (err, doc) => {
       return returnSimpleResult(err, doc, cb);
     });
   }
