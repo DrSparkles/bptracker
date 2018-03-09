@@ -22,7 +22,6 @@ export default class MainNav extends React.Component {
       .then(() => this.props.history.replace('/'));
 
   render(){
-    console.log("this.props.userStore.currentUser", this.props.userStore.currentUser);
     return (
       <div className={styles.navLinks}>
         <LoggedOutView currentUser={this.props.userStore.currentUser} />

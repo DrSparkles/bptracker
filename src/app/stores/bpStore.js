@@ -32,7 +32,7 @@ class BPStore {
    * @param bpId
    * @returns {*|V}
    */
-  @computed getBP(bpId) {
+  getBP(bpId) {
     return this.bpRegistry.get(bpId);
   }
 
