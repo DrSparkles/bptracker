@@ -2,6 +2,9 @@ import React from "react";
 import { inject, observer } from 'mobx-react';
 import BPTable from '../BPTable';
 
+/**
+ * Home page; show the bp values of the current logged in user
+ */
 @inject('bpStore', 'userStore')
 @observer
 export default class Home extends React.Component {

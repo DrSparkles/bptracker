@@ -4,6 +4,9 @@ import { inject, observer } from 'mobx-react';
 
 import MainNav from '../MainNav';
 
+/**
+ * Site header
+ */
 @inject('userStore', 'commonStore')
 @observer
 class Header extends React.Component {
@@ -13,7 +16,7 @@ class Header extends React.Component {
         <nav className="navbar navbar-light">
 
           <Link to="/">
-            {this.props.commonStore.appName.toLowerCase()}
+            {this.props.commonStore.appName}
           </Link>
 
           <MainNav />

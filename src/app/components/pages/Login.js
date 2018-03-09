@@ -3,11 +3,17 @@ import ListErrors from '../ListErrors';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
+/**
+ * Login form
+ */
 @inject('authStore')
 @withRouter
 @observer
 export default class Login extends React.Component {
 
+  /**
+   * Clear the user fields when the form is done
+   */
   componentWillUnmount() {
     this.props.authStore.reset();
   }

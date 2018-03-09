@@ -3,9 +3,11 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import bpEditorStore from "../../stores/bpEditorStore";
-import moment from "moment/moment";
 import commonStore from "../../stores/commonStore";
 
+/**
+ * Form for adding / editing bp values
+ */
 @inject('bpEditorStore', 'commonStore', 'bpStore')
 @withRouter
 @observer
@@ -17,14 +19,24 @@ export default class BPEditor extends React.Component {
     this.datetimeFormat = this.props.commonStore.datetimeFormat;
   }
 
+  /**
+   * If we're editing a value, load it's id from the URL
+   */
   componentWillMount() {
     this.props.bpEditorStore.setBpId(this.props.match.params._id);
   }
 
+  /**
+   * Load the BP value if editing
+   */
   componentDidMount() {
     this.props.bpEditorStore.loadInitialData();
   }
 
+  /**
+   * Handle changes to the BP to edit
+   * @param prevProps
+   */
   componentDidUpdate(prevProps) {
     if (this.props.match.params._id !== prevProps.match.params._id) {
       this.props.bpEditorStore.setBpId(this.props.match.params._id);
@@ -59,8 +71,6 @@ export default class BPEditor extends React.Component {
       pulse,
       notes,
     } = this.props.bpEditorStore;
-
-    //const datetimeString = this.props.bpStore.getDatetimeAsFormattedString(datetime);
 
     return(
       <div id="BPEditor">

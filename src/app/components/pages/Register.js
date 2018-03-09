@@ -3,10 +3,16 @@ import ListErrors from '../ListErrors';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
+/**
+ * Registration form for users
+ */
 @inject('authStore')
 @observer
 export default class Register extends React.Component {
 
+  /**
+   * Clear the user fields when the form is done
+   */
   componentWillUnmount() {
     this.props.authStore.reset();
   }

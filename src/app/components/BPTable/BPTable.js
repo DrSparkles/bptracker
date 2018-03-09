@@ -1,10 +1,12 @@
 import React from "react";
 import { observer } from 'mobx-react';
-
 import styles from './styles.css';
 import BPRow from './BPRow';
 import LoadingSpinner from '../LoadingSpinner';
 
+/**
+ * Display table for a user's BP Values
+ */
 @observer
 export default class BPTable extends React.Component {
 

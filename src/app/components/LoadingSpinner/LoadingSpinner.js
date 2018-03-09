@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Loading spinner
+ */
 const style  = {
   borderRadius: '50%',
   width: '40px',

@@ -1,11 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * A row of the bp table
+ */
 export default class BPRow extends React.Component {
-
-  constructor(props){
-    super(props);
-  }
 
   onDelete = () => this.props.onDelete(this.props.bpData._id);
 

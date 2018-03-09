@@ -2,7 +2,10 @@ import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { inject, observer } from 'mobx-react';
 
-// import mainStyles from '../../../public/styles/styles.css';
+/**
+ * Load styles, both for the top level app as a whole and for this specific page
+ */
+import mainStyles from '../../../styles/masterStyle.css';
 import layoutStyles from './styles.css';
 
 import Header from '../../Header';
@@ -10,8 +13,6 @@ import Home from '../Home';
 import Login from '../Login';
 import Register from '../Register';
 import BPEditor from '../BPEditor';
-
-import mainStyles from '../../../styles/masterStyle.css';
 import PrivateRoute from "../../PrivateRoute";
 
 @inject('commonStore', 'userStore')
@@ -20,14 +21,12 @@ import PrivateRoute from "../../PrivateRoute";
 export default class Layout extends React.Component {
 
   componentWillMount() {
-    console.log("LAYOUT token willMount", this.props.commonStore.token);
     if (!this.props.commonStore.token) {
       this.props.commonStore.setAppLoaded();
     }
   }
 
   componentDidMount() {
-    console.log("LAYOUT token didMount", this.props.commonStore.token);
     if (this.props.commonStore.token) {
       this.props.userStore
         .pullUser()
@@ -36,7 +35,6 @@ export default class Layout extends React.Component {
   }
 
   render(){
-    console.log("LAYOUT render appLoaded", this.props.commonStore.appLoaded);
     if (this.props.commonStore.appLoaded) {
       return (
 

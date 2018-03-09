@@ -4,6 +4,9 @@ import { inject, observer } from 'mobx-react';
 
 import styles from './styles.css';
 
+/**
+ * Primary site navigation; dependant on logged in status
+ */
 @inject('userStore', 'commonStore', 'authStore')
 @withRouter
 @observer
@@ -75,13 +78,6 @@ const LoggedInView = props => {
             New Entry
           </Link>
         </li>
-
-        <li>
-          <Link to="/settings">
-            Settings
-          </Link>
-        </li>
-
 
         <li>
           <a href='#' onClick={props.onLogout}>Log Out</a>
