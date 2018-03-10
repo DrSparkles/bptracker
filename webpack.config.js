@@ -2,6 +2,7 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const globalizePlugin = require('globalize-webpack-plugin');
 
 const { NODE_ENV = 'development' } = process.env;
 const ROOT = resolve(__dirname);
@@ -36,6 +37,15 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
+      },
       {
         test: /\.js$/,
         use: ['babel-loader'],

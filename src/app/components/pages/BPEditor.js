@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import bpEditorStore from "../../stores/bpEditorStore";
 import commonStore from "../../stores/commonStore";
+import moment from 'moment';
 
 const btnStyle = {
   "backgroundColor": "5f0f0f",
@@ -20,7 +21,6 @@ export default class BPEditor extends React.Component {
 
   constructor(props){
     super(props);
-
     this.datetimeFormat = this.props.commonStore.datetimeFormat;
   }
 
@@ -87,7 +87,9 @@ export default class BPEditor extends React.Component {
             <form>
               <div className="form-group">
                 <div className="form-group">
+                  <label htmlFor='datetime'>Date (time is military)</label>
                   <input
+                    name='datetime'
                     type="text"
                     placeholder={this.datetimeFormat}
                     value={datetime}
@@ -98,7 +100,9 @@ export default class BPEditor extends React.Component {
                 </div>
 
                 <div className="form-group">
+                  <label htmlFor='sys'>Sys</label>
                   <input
+                    name='sys'
                     type="text"
                     placeholder="Sys"
                     value={sys}
@@ -109,7 +113,9 @@ export default class BPEditor extends React.Component {
                 </div>
 
                 <div className="form-group">
+                  <label htmlFor='dia'>Dia</label>
                   <input
+                    name='dia'
                     type="text"
                     placeholder="Dia"
                     value={dia}
@@ -120,7 +126,9 @@ export default class BPEditor extends React.Component {
                 </div>
 
                 <div className="form-group">
+                  <label htmlFor='pulse'>Pulse</label>
                   <input
+                    name='pulse'
                     type="text"
                     placeholder="Pulse"
                     value={pulse}
@@ -131,7 +139,9 @@ export default class BPEditor extends React.Component {
                 </div>
 
                 <div className="form-group">
+                  <label htmlFor='notes'>Notes</label>
                   <textarea
+                    name='notes'
                     placeholder="Notes"
                     value={notes}
                     onChange={this.changeNotes}

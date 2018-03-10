@@ -1,6 +1,7 @@
 import React from "react";
 import { inject, observer } from 'mobx-react';
 import BPTable from '../BPTable';
+import ChartBPOverTime from "../ChartBPOverTime/ChartBPOverTime";
 
 /**
  * Home page; show the bp values of the current logged in user
@@ -36,6 +37,7 @@ export default class Home extends React.Component {
     if (this.props.userStore.currentUser){
       return (
         <div id='Home'>
+          <ChartBPOverTime/>
           <BPTable
             bpList={bpList}
             isLoading={isLoading}

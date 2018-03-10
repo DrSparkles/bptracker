@@ -29,6 +29,47 @@ class BPStore {
     return this.bpRegistry.values();
   };
 
+  @computed get sysValues(){
+    const sys = [];
+    this.bpRegistry.forEach((bp) => {
+      sys.push(bp.sys);
+    });
+    return sys;
+  }
+
+  @computed get sysByDateValues(){
+    const response = [];
+    this.bpRegistry.forEach((value, key) => {
+      const utcTime = moment(value.datetime, commonStore.datetimeFormat).valueOf();
+      const sysValue = value.sys;
+      const datetimeSys = [utcTime, parseInt(sysValue)];
+      response.push(datetimeSys);
+    });
+    return response;
+  }
+
+  @computed get diaByDateValues(){
+    const response = [];
+    this.bpRegistry.forEach((value, key) => {
+      const utcTime = moment(value.datetime, commonStore.datetimeFormat).valueOf();
+      const diaValue = value.dia;
+      const datetimeSys = [utcTime, parseInt(diaValue)];
+      response.push(datetimeSys);
+    });
+    return response;
+  }
+
+  @computed get pulseByDateValues(){
+    const response = [];
+    this.bpRegistry.forEach((value, key) => {
+      const utcTime = moment(value.datetime, commonStore.datetimeFormat).valueOf();
+      const pulseValue = value.pulse;
+      const datetimeSys = [utcTime, parseInt(pulseValue)];
+      response.push(datetimeSys);
+    });
+    return response;
+  }
+
   /**
    * Given a bpId, return a specific bp entry
    * @param bpId
