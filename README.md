@@ -56,6 +56,13 @@ Make sure that your database configurations are properly set up in `src/server/c
 Similarly, hashing of passwords is configured through `src/server/config/auth.config.js`.  The auth "secret code" should be set here to 
 ensure proper security.
 
+### Basic structure
+Server code is handled under `src/server`, and front end code under `src/app`.  
+
+To adjust server settings, look under `src/server/config` or `src/server/index.js`, the entry point to the server code.
+
+Front end code is handled under `src/app`, with it's entry point at `src/app/app.js`.
+
 ## Running the tests
 
 Tests are pending.  They will be set up with Mocha and Storybook, and will test both the server and front end code.
