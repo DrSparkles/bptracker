@@ -3,7 +3,7 @@
  * @type {{secret: string, authExpireMinutes: number}}
  */
 const authConfig = {
-  secret: 'monkeysareawesomecreatures',
+  secret: 'SECRETCODE',
   authExpireMinutes: 1440
 };
 
