@@ -27,15 +27,15 @@ class User {
 
     // make sure our values are set
     if (username === undefined || username === "" || password === undefined || password === ""){
-      return returnSimpleResult("Username and password must not be blank.", {}, cb);
+      return returnSimpleError("Username and password must not be blank.", 400, cb);
     }
 
     // make sure the user is unique
     this.user_collection.find({username}, (err, userDoc) => {
-      if (err) return returnSimpleResult(err, doc, cb);
+      if (err) return returnSimpleError(err, 400, cb);
 
       if (userDoc.length){
-        return returnSimpleResult("That username already exists; please try another!", {}, cb);
+        return returnSimpleError("That username already exists; please try another!", 400, cb);
       }
 
       // save our user with hashed password
@@ -62,7 +62,7 @@ class User {
     const { username, password } = userValues;
 
     // make sure our values are set
-    if (username == undefined || username == "" || password == undefined || password == ""){
+    if (username === undefined || username === "" || password === undefined || password === ""){
       return returnSimpleError("Username and password must not be blank.", 400, cb);
     }
 
@@ -77,11 +77,13 @@ class User {
       if(bcrypt.compareSync(password, userDoc.password)) {
 
         const payload = {
+          _id: userDoc._id,
           username
         };
 
         // return the token
         const token = jwt.sign(payload, authConfig.secret);
+
         return returnSimpleResult(err, {token}, cb);
       }
 

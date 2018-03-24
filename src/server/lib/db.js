@@ -11,7 +11,7 @@ export const db = monk(dbConfig.connection);
 /**
  * Given an id in a json object, return an ObjectId
  * The object should be a collection of values containing _id
- * @param {object} _id
+ * @param {object} obj
  */
 export function getIdFromJSON(obj){
   return db.id(obj._id);
@@ -21,8 +21,11 @@ export function getIdFromJSON(obj){
  * Get an ObjectId from a string
  * @param {string} id
  */
-export function getId(id){
-  return db.id(id);
+export function getId(id = ""){
+  if (id !== ""){
+    return db.id(id);
+  }
+  return db.id();
 }
 
 /**
@@ -85,7 +88,7 @@ export function returnSimpleError(err, status, cb){
  */
 export function returnSimpleResult(err, doc, cb){
   if (err){
-    return cb(returnSimpleError(err));
+    return cb(err);
   }
 
   return cb(null, getResponseJSON(doc));
